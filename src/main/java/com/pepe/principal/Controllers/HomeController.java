@@ -1,0 +1,16 @@
+package com.pepe.principal.Controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+@RequestMapping(value="/home") //http://localhost:8080/home
+public class HomeController {
+	//@RequestMapping(method=RequestMethod.GET)
+	@GetMapping
+	public String index() {
+		return "home/index";
+	}
+}
