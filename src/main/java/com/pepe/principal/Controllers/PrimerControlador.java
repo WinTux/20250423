@@ -4,8 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.pepe.principal.Models.Persona;
 
 @Controller
 public class PrimerControlador {
@@ -31,5 +35,11 @@ public class PrimerControlador {
 		logger.error("Este no es un error, es una prueba e log.");
 		return val01+" "+val02+" "+val03;
 		
+	}
+	@PostMapping("/persona") // http://localhost:5000/persona [POST]
+	@ResponseBody
+	public String recibiendoRecurso(@RequestBody Persona p) {
+		System.out.println(p.getNombre() + " "+ p.getApellido() + " "+" tiene  "+p.getEdad()+" años.");
+		return "yes";
 	}
 }
