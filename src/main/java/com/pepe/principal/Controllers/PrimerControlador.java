@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,5 +43,11 @@ public class PrimerControlador {
 	public String recibiendoRecurso(@RequestBody Persona p) {
 		System.out.println(p.getNombre() + " "+ p.getApellido() + " "+" tiene  "+p.getEdad()+" años.");
 		return "yes";
+	}
+	
+	@GetMapping("/valor/{id}")
+	@ResponseBody
+	public String recibienoParametro(@PathVariable("id") int id) {
+		return "El cuadrado de "+id+" es: "+(id*id);
 	}
 }

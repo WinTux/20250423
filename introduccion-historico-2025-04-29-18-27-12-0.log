@@ -1,0 +1,4 @@
+20250429182712 **INFO ** [RMI TCP Connection(17)-127.0.0.1] -->o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin<-- Application shutdown requested. 
+20250429182712 **DEBUG** [RMI TCP Connection(17)-127.0.0.1] -->o.s.b.a.ApplicationAvailabilityBean<-- Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC 
+20250429182712 **DEBUG** [RMI TCP Connection(17)-127.0.0.1] -->o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext<-- Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7e276594, started on Tue Apr 29 18:21:32 BOT 2025 
+20250429182712 **INFO ** [RMI TCP Connection(17)-127.0.0.1] -->o.s.b.w.e.t.GracefulShutdown<-- Commencing graceful shutdown. Waiting for active requests to complete 
