@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
 import com.pepe.principal.Models.Estudiante;
 @Controller
 public class EstudianteController {
@@ -92,4 +95,37 @@ public class EstudianteController {
 	}
 	
 	// Implementar el JSON Patch
+	@PatchMapping(path="/estudiante/{id}",consumes="application/json-patch+json")
+	public ResponseEntity<Object> editarConJsonPatch(@PathVariable("id") int id, @RequestBody JsonPatch atributosModificados){
+		// Verificar si existe
+		if(!estudiantes.containsKey(id+""))
+			return ResponseEntity.notFound().build();
+		// Mapear
+		try {
+			Estudiante estOriginal = estudiantes.get(id+"");
+			JsonNode patcheado = atributosModificados
+					.apply(
+							objectMapper
+							.convertValue(estOriginal, JsonNode.class)
+					);
+			Estudiante estudianteActualizado = 
+					objectMapper.treeToValue(patcheado, Estudiante.class);
+			// Actualizar
+			estudiantes.remove(id+"");
+			estudiantes.put(id+"", estudianteActualizado);
+			// Responder
+			return ResponseEntity.noContent().build();
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().build();
+		}
+	}
+	@GetMapping("/estudiante/status")
+	public ResponseEntity<String> encabezaosPersonalizados(){
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("token", "ADFSAJ543SFfdsf55");
+		headers.add("edad", "55");
+		headers.add("ClientID", "id013");
+		return new ResponseEntity<>("Respuesta con cabeceras propias.",headers, HttpStatus.OK);
+	}
 }
