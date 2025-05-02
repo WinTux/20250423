@@ -1,5 +1,6 @@
 package com.pepe.principal.Controllers;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.HashMap;
@@ -23,7 +24,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
+import com.pepe.principal.Exceptions.EstudianteNoEncontradoException;
 import com.pepe.principal.Models.Estudiante;
+
+import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class EstudianteController {
 	private static Map<String,Estudiante> 
@@ -61,7 +65,7 @@ public class EstudianteController {
 	@PutMapping("/estudiante/{id}")
 	public ResponseEntity<Object> modificarEstudiante(@PathVariable("id") int id, @RequestBody Estudiante est){
 		if(!estudiantes.containsKey(id+""))
-			return ResponseEntity.notFound().build();
+			throw new EstudianteNoEncontradoException();
 		estudiantes.remove(id+"");
 		estudiantes.put(id+"", est);
 		return ResponseEntity.noContent().build();
@@ -127,5 +131,13 @@ public class EstudianteController {
 		headers.add("edad", "55");
 		headers.add("ClientID", "id013");
 		return new ResponseEntity<>("Respuesta con cabeceras propias.",headers, HttpStatus.OK);
+	}
+	
+	// La vieja escuela: la forma más cruda
+	// Jakarta -> Servlets
+	@GetMapping("/estudiante/pruebacruda")
+	public void ejemploCrudo(HttpServletResponse response) throws IOException{
+		response.setHeader("Codigo", "A2343fdDfgd4");
+		response.getWriter().print("RESPUESTA LISTA");
 	}
 }
